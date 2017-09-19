@@ -2,9 +2,11 @@ package com.wu.darkweather.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.wu.darkweather.db.City;
 import com.wu.darkweather.db.County;
 import com.wu.darkweather.db.Province;
+import com.wu.darkweather.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,5 +91,15 @@ public class Utility {
             }
         }
         return false;
+    }
+    public static Weather handleWeatherInfo(String info){
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            String heWeather5 = jsonObject.getJSONArray("HeWeather5").getJSONObject(0).toString();
+            return new Gson().fromJson(heWeather5,Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

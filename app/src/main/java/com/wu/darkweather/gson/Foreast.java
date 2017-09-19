@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Foreast {
     public Cond cond;
-    @SerializedName("temp")
     public String date;
+    @SerializedName("tmp")
     public Temperature temperature;
 
     public class Temperature{

@@ -1,6 +1,7 @@
 package com.wu.darkweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -76,8 +77,22 @@ public class ChooseArea extends Fragment {
                 }else if(current_level==LEVEL_CITY){
                     selectedCity = cities.get(position);
                     queryCounties();
-                }else if(current_level==LEVEL_COUNTY){
+                }else {
+                    if (current_level == LEVEL_COUNTY) {
+                        String weatherId = counties.get(position).getWeatherId();
+                        if(getActivity() instanceof MainActivity) {
+                            Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                            intent.putExtra("weather_id", weatherId);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }else if (getActivity() instanceof WeatherActivity) {
+                                WeatherActivity weatherActivity = (WeatherActivity) getActivity();
+                                weatherActivity.drawerLayout.closeDrawers();
+                                weatherActivity.swipeRefreshLayout.setRefreshing(true);
+                                weatherActivity.requestWeather(weatherId);
+                        }
 
+                    }
                 }
             }
         });
